@@ -1,0 +1,4 @@
+
+SECRET_KEY = ''
+SQLALCHEMY_DATABASE_URI = 'postgres:///youtubeify'
+SQLALCHEMY_TRACK_MODIFICATIONS = False

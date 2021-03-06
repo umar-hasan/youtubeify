@@ -1,0 +1,143 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div id="playlist-info">
+    <div id="playlist-title" class="d-flex">
+        <h2 id={{playlist.id}} class="playlist-title">{{playlist.name}}</h2>
+        <i class="edit-btn bi bi-pencil-fill"></i>
+    </div>
+    
+    <div id="playlist-description" class="d-flex my-2">
+        <p class="playlist-description">{{playlist.description}}</p>
+        <i class="edit-btn bi bi-pencil-fill"></i>
+    </div>
+</div>
+
+
+
+<form id="update-playlist-form">
+    <label for="title">Playlist Title</label>
+    <h2>
+        <input id="title" type="text" value={{playlist.name}}>
+    </h2>
+    
+    <label for="description">Description</label>
+    <textarea name="" id="description" cols="30" rows="5" value={{playlist.description}}>{{playlist.description}}</textarea>
+    <div class="d-flex my-3">
+        <button id="update-btn" class="btn btn-primary">Update</button>
+        <button id="cancel-btn" class="btn btn-dark">Cancel</button>
+    </div>
+    
+</form>
+
+
+
+<div id="playlist-action-btns" class="my-3">
+    <form action="/delete-playlist" method="POST">
+        <input type="hidden" name="playlist_id" value="{{ playlist.id }}" >
+        <button id="del-btn" class="btn-secondary btn my-3">
+            Delete Playlist
+        </button>
+    </form>
+    
+    {% if videos or songs %}
+    <div id="platform-btns" class="d-flex">
+        <form action="/yt-export" method="POST">
+            <input type="hidden" name="playlist_id" value="{{ playlist.id }}" >
+            <button id="yt-export" class="btn-danger btn">
+                <i class="bi bi-youtube"></i> Export to YouTube
+            </button>
+        </form>
+        <form action="/spot-export" method="POST" class="mx-2">
+            <input type="hidden" name="playlist_id" value="{{ playlist.id }}" >
+            <button id="spot-export" class="btn-success btn">
+                <i class="fab fa-spotify"></i> Export to Spotify
+            </button>
+        </form>
+        
+    </div>
+    
+    {% endif %}
+    
+</div>
+
+<div class="youtube">
+    <h4>YouTube Music</h4>
+    <div class="section">
+        {% if videos %}
+        {% for video in videos %}
+            <div id={{video.id}} class="video card mx-2">
+                <a href="https://youtu.be/{{video.id}}" target="_blank">
+                    <img class="card-img-top" src={{video.img_url}} alt="">
+                    <div class="card-body">
+                        
+                        <div class="d-flex media-content">
+                            <div class="content-holder">
+                                <h6 class="card-title mt-2">{{video.title}}</h6>
+                                <p class="card-text channel">{{video.channel}}</p>
+                            </div>
+                            <i class="action-tab bi bi-three-dots-vertical my-2"></i>
+                        </div>
+                            
+                    </div>
+                </a>
+                
+            </div>
+        {% endfor %}
+        {% endif %}
+        <div id="no-videos">
+            <p>No YouTube videos.</p>
+        </div>
+    </div>
+    
+</div>
+
+<div class="spotify">
+    <h4>Spotify Music</h4>
+    <div class="section">
+        {% if songs %}
+        {% for song in songs %}
+            <div id={{song.id}} class="song card mx-2">
+                <a href="https://open.spotify.com/track/{{song.id}}" target="_blank">
+                    <img class="card-img-top" src={{song.img_url}} alt="">
+                    <div class="card-body">
+                            
+                        <div class="d-flex media-content">
+                            <div class="content-holder">
+                                <h6 class="card-title mt-2">{{song.title}}</h6>
+                                <p class="card-text artist">{{song.artist}}</p>
+                            </div>
+                            <i class="action-tab bi bi-three-dots-vertical my-2"></i>
+                        </div>
+                            
+                    </div>
+                </a>
+                
+            </div>
+        {% endfor %}
+        {% endif %}
+        <div id="no-songs">
+            <p>No YouTube videos.</p>
+        </div>
+    </div>
+    
+</div>
+
+
+<div id="backdrop">
+    <div id="spinner-container">
+        <h1 class="mx-4">Give this thing a moment....  </h1>
+        
+        <div class="spinner-border text-light" role="status"></div>
+    </div>
+    
+</div>
+
+
+<div id="actions" class="dropdown-menu dropdown-menu-dark">
+    <li id="delete-action" class="dropdown-item">Remove from Playlist</li>
+</div>
+
+<script src="{{url_for('.static', filename='js/playlist.js')}}"></script>
+
+{% endblock %}

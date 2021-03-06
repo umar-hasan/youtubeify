@@ -1,0 +1,126 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<!-- <div id="back-btn">
+        <a id="back-link" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 18 18"><path d="M11.56 5.56L10.5 4.5 6 9l4.5 4.5 1.06-1.06L8.12 9z"/></svg> Back</a>
+    </div> -->
+<div id="settings-form" class="accordion mx-auto">
+
+    <form action="/change-username" method="POST">
+        <h2>Change Username</h2>
+        {{user_form.hidden_tag()}}
+        <div class="field">
+            {{user_form.username.label}}
+            {{user_form.username}}
+            {% for error in user_form.username.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="field">
+            {{user_form.password.label}}
+            {{user_form.password}}
+            {% with err_messages = get_flashed_messages(category_filter=["password_error"]) %}
+            {% if err_messages %}
+            {% for message in err_messages %}
+            <span class="text-danger">{{message}}</span>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        <button class="btn btn-dark" type="submit">Confirm Changes</button>
+    </form>
+
+    <hr>
+
+
+    <form action="/change-pass" method="POST">
+        <h2>Change Password</h2>
+        {{password_form.hidden_tag()}}
+        <div class="field">
+            {{password_form.current_password.label}}
+            {{password_form.current_password}}
+            {% with err_messages = get_flashed_messages(category_filter=["current_password_error"]) %}
+            {% if err_messages %}
+            {% for message in err_messages %}
+            <span class="text-danger">{{message}}</span>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        <div class="field">
+            {{password_form.new_password.label}}
+            {{password_form.new_password}}
+            {% for error in password_form.new_password.errors %}
+            <span class="text-danger">{{error}}</span>
+            {% endfor %}
+            {% with err_messages = get_flashed_messages(category_filter=["new_password_error"]) %}
+            {% if err_messages %}
+            {% for message in err_messages %}
+            <span class="text-danger">{{message}}</span>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        <div class="field">
+            {{password_form.confirm_new_password.label}}
+            {{password_form.confirm_new_password}}
+            {% for error in password_form.confirm_new_password.errors %}
+            <span class="text-danger">{{error}}</span>
+            {% endfor %}
+            {% with err_messages = get_flashed_messages(category_filter=["confirm_new_password_error"]) %}
+            {% if err_messages %}
+            {% for message in err_messages %}
+            <span class="text-danger">{{message}}</span>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        <button class="btn btn-dark" type="submit">Confirm Changes</button>
+    </form>
+
+
+    <hr>
+
+    <div>
+        <h2>Change Accounts</h2>
+        <div id="verify-btns" class="field">
+            <a href="/yt-authorize">
+                <button class="btn btn-danger"><i class="bi bi-youtube"></i> YouTube</button>
+            </a>
+            <a href="/spot-authorize" class="ms-3">
+                <button class="btn btn-success"><i class="fab fa-spotify"></i> Spotify</button>
+            </a>
+        </div>
+    </div>
+
+
+    <hr>
+
+    <div class="d-flex">
+        <form action="/delete-user" method="POST">
+            <button class="btn">Delete Account</button>
+        </form>
+    </div>
+
+    {% with success_messages = get_flashed_messages(category_filter=["success"]) %}
+    {% if success_messages %}
+    <div class="alert alert-success fade-in fixed-bottom" role="success">
+        {% for message in success_messages %}
+        {{message}}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% with err_messages = get_flashed_messages(category_filter=["error"]) %}
+    {% if err_messages %}
+    <div class="alert alert-danger fade-in fixed-bottom" role="alert">
+        {% for message in err_messages %}
+        {{message}}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<script src="{{url_for('.static', filename='js/playlists.js')}}"></script>
+
+<h3 class="my-3 ms-4">Playlists</h3>
+
+<button id="add-playlist-btn" class="btn btn-primary my-3 ms-4" data-bs-toggle="modal"
+    data-bs-target="#add-playlist-modal">
+    <i class="bi bi-plus-circle-fill"></i> Create Playlist
+</button>
+
+<div class="my-4 mx-4">
+    {% if playlists | length > 0 %}
+    <div class="row w-100 mx-auto">
+        {% for playlist in playlists %}
+        <div class="playlist card bg-dark col-lg-2 col-md-3 mx-3">
+            <a href="/playlist/{{playlist["playlist"].id}}">
+                {% if playlist["img"] %}
+                <img class="card-img-top" src={{playlist["img"]}} alt="">
+                {% else %}
+                <div class="card-img-top img-placeholder"></div>
+                {% endif %}
+                <div class="card-body">
+                    <h4 class="card-title">
+                        {{playlist["playlist"].name}}
+                    </h4>
+        
+                    {{playlist.videos}}
+                </div>
+            </a>
+            
+    
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% else %}
+    <p>No playlists created.</p>
+    {% endif %}
+</div>
+
+<div id="add-playlist-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog bg-dark">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="add-playlist-form">
+                <div class="my-2">
+                    <label for="playlist-name">Name</label>
+                    <input id="playlist-name" type="text" required>
+                </div>
+                <div class="my-2">
+                    <label for="desc">Description</label>
+                    <textarea name="" id="desc" rows="4"></textarea>
+                </div>
+                <button id="create-playlist-btn" class="btn btn-primary my-3">Create</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% with success_messages = get_flashed_messages(category_filter=["success"]) %}
+{% if success_messages %}
+    <div class="alert alert-success fade-in fixed-bottom" role="success">
+        {% for message in success_messages %}
+        {{message}}
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
+
+{% with err_messages = get_flashed_messages(category_filter=["error"]) %}
+    {% if err_messages %}
+        <div class="alert alert-danger fade-in fixed-bottom" role="alert">
+            {% for message in err_messages %}
+            {{message}}
+            {% endfor %}
+        </div>
+{% endif %}
+{% endwith %}
+
+{% endblock %}

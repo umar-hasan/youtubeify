@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTubeify</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+        integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="{{url_for('.static', filename='css/styles.css')}}">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src={{url_for('.static', filename='js/verify.js')}}></script>
+</head>
+
+<body>
+    <h2 id="verify-heading" class="mx-auto my-5">You'll need to sign in to both your YouTube and Spotify accounts if you'd like to continue using this app.</h2>
+    <div id="verify-icons">
+        <a id="yt-link" class="verify-icon" href="/yt-authorize">
+            <div id="yt-icon">
+                {% if yt_verified %}
+                <i id="yt-verified" class="bi bi-check2"></i>
+                {% endif %}
+                <i id="yt-verify-icon" class="bi bi-youtube"></i> 
+                <!-- <img id="yt-verify-icon" src={{url_for('.static', filename='icons/youtube.svg' )}} alt=""> -->
+            </div>
+            
+        </a>
+        <a id="spot-link" class="verify-icon" href="/spot-authorize">
+            <div id="spot-icon">
+                {% if spot_verified %}
+                <i id="spot-verified" class="bi bi-check2"></i>
+                {% endif %}
+                <i id="spot-verify-icon" class="fab fa-spotify"></i>
+                <!-- <img id="spot-verify-icon" src={{url_for('.static', filename='icons/spotify.svg' )}} alt=""> -->
+            </div>
+            
+        </a>
+    </div>
+    <p id="continue" class="my-5">Looks like you're signed into both sites. <a href="/">Continue.</a></p>
+
+</body>
+
+</html>

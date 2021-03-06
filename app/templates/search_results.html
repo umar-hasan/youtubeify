@@ -1,0 +1,121 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="youtube col">
+            <h4>YouTube Search Results</h4>
+            <div class="col-section">
+                {% if yt_results %}
+                {% for yt_result in yt_results|batch(2) %}
+                <div class="row">
+                    {% for col in yt_result %}
+                    <div class="col">
+                        <div id={{col["id"]["videoId"]}} class="video card">
+                            <a href="https://youtu.be/{{col["id"]["videoId"]}}" target="_blank">
+                                <img class="card-img-top" src={{col["snippet"]["thumbnails"]["high"]["url"]}} alt="">
+                                <div class="card-body">
+                                    
+                                    <div class="d-flex media-content">
+                                        <div class="content-holder">
+                                            <h6 class="card-title mt-2">{{col["snippet"]["title"]|replace("&#39;", "'")}}</h6>
+                                            <p class="card-text channel">{{col["snippet"]["channelTitle"]}}</p>
+                                        </div>
+                                        <i class="action-tab bi bi-three-dots-vertical my-2"></i>
+                                    </div>
+                                    
+                                </div>
+                            </a>
+                            
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                </div>
+
+
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="spotify col">
+            <h4>Spotify Search Results</h4>
+            <div class="col-section">
+                {% if spot_results %}
+                {% for spot_result in spot_results|batch(2) %}
+                <div class="row">
+                    {% for col in spot_result %}
+                    <div class="col">
+                        <div id={{col["id"]}} class="song card">
+                            <a href="https://open.spotify.com/track/{{col["id"]}}" target="_blank">
+                                <img class="card-img-top" src={{col["album"]["images"][0]["url"]}} alt="">
+                                <div class="card-body">
+                                    <div class="d-flex media-content">
+                                        <div class="content-holder">
+                                            <h6 class="card-title mt-2">{{col["name"]}}</h6>
+                                            <p class="card-text artist">{{col["artists"][0]["name"]}}</p>
+                                        </div>
+                                        <i class="action-tab bi bi-three-dots-vertical my-2"></i>
+                                    </div>
+                                    
+                                </div>
+                            </a>
+                            
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+                {% endfor %}
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="actions" class="dropdown-menu dropdown-menu-dark">
+    <li id="add-action" class="dropdown-item">Add to Playlist</li>
+</div>
+
+<div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog bg-dark">
+        <div class="modal-content bg-dark">
+            <div class="modal-header bg-dark">
+                <h6>
+                    Add to....
+                </h6>
+            </div>
+            <form id="add-form">
+                <div id="existing-playlists">
+                    {% for playlist in playlists %}
+                    <div class="form-check">
+                        <input class="form-check-input playlist-check" type="checkbox" value="" id={{playlist.id}}>
+                        <label class="form-check-label" for={{playlist.id}}>
+                            {{playlist.name}}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div id="create-form" class="my-3">
+                    <label for="playlist-name">Name</label>
+                    <input id="playlist-name" type="text">
+                    <label for="desc">Description</label>
+                    <textarea name="" id="desc" rows="4"></textarea>
+                </div>
+                <button id="add-btn" class="btn btn-primary mt-2" type="submit" disabled>
+                    Add
+                </button>
+            </form>
+            <button id="create-playlist-btn" class="btn btn-secondary mx-3 mb-3">Create Playlist</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="{{url_for('.static', filename='js/search.js')}}"></script>
+
+{% endblock %}
