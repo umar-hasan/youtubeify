@@ -1,0 +1,11 @@
+.DS_Store
+__pycache__
+**/__pycache__
+**.pyc
+app_config.py
+yt_config.py
+spot_config.py
+
+app/__pycache__
+app/auth/__pycache__
+app/models/__pycache__
