@@ -90,6 +90,6 @@ def spot_get_recommended():
     genre_seeds = sp.recommendation_genre_seeds()
 
 
-    res = sp.recommendations(seed_artists=artist_seeds, limit=10)
+    res = sp.recommendations(seed_artists=artist_seeds[:5], limit=10)
 
     return res
