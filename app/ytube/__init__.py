@@ -10,7 +10,7 @@ PROJECT_ID = os.environ.get('PROJECT_ID')
 AUTH_URI = os.environ.get('AUTH_URI')
 TOKEN_URI = os.environ.get('TOKEN_URI')
 AUTH_PROVIDER_URL = os.environ.get('AUTH_PROVIDER_URL')
-CLIENT_SECRET = os.environ('CLIENT_SECRET')
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 REDIRECT_URIS = os.environ.get('REDIRECT_URIS')
 
 CLIENT_CONFIG = {
