@@ -12,7 +12,7 @@ from ..models.yt_credentials import YTCredentials
 from ..models.spot_credentials import SpotCredentials
 from ..forms import LoginForm, RegisterForm
 from ..routes import remove_content
-from ..yt.helpers import get_yt_credentials
+from ..ytube.helpers import get_yt_credentials
 from ..spotify.helpers import get_spot_credentials
 
 auth = Blueprint('auth', __name__, template_folder='../templates', static_folder='../static')
@@ -40,7 +40,7 @@ def verify():
 
 @login_manager.user_loader
 def load_user(user_id):
-    """Loads a user when loggin in."""
+    """Loads a user when logging in."""
 
     return User.query.get(user_id)
 

@@ -8,7 +8,7 @@ from .models.playlist_videos import PlaylistVideo
 from .models.playlist_songs import PlaylistSong
 from .models.yt_credentials import YTCredentials
 from .models.spot_credentials import SpotCredentials
-from .yt.helpers import *
+from .ytube.helpers import *
 from .spotify.helpers import *
 from flask_login import login_required, current_user
 from youtube_title_parse import get_artist_title
@@ -17,10 +17,6 @@ from .forms import ChangeUserForm, ChangePasswordForm
 
 api = Blueprint('api', __name__, template_folder='./templates', static_folder='../static')
 
-
-@api.errorhandler(404)
-def page_error(e):
-  return render_template("error.html")
 
 
 @api.route('/')
@@ -90,7 +86,7 @@ def change_username():
           return redirect(url_for("api.settings"))
         if user_form.username.data != current_user.username and len(user_form.username.data) > 0:
           updated_user = User.change_credentials(username=current_user.username, 
-                                                new_username=user_form.username.data)
+                                                 new_username=user_form.username.data)
           flash("User update successful.", 'success')
 
       except:
@@ -432,14 +428,19 @@ def export_to_spot():
             q2 = q2.replace("[", "")
             q2 = q2.replace("]", "")
 
+          print(query)
+          print(q1)
+          print(q2)
+
 
           if q1 and q2:
             song_results = spot_search_results(q1)["tracks"]["items"]
             if song_results:
               for result in song_results:
-                if result["name"].lower() in v.title.lower() or result["artists"][0]["name"] in v.channel or result["artists"][0]["name"].strip() in v.channel or result["artists"][0]["name"] in v.title:
+                
+                if (result["name"].lower() in v.title.lower() and result["artists"][0]["name"] in v.title) or (result["name"].replace(result["name"][result["name"].find("["):result["name"].find("]")+1], "").lower() in v.title.lower() and result["artists"][0]["name"] in v.title):
                   if result["id"] in tracks:
-                      continue
+                    continue
                   else:
                     tracks.append(result["id"])
                     break
@@ -448,7 +449,7 @@ def export_to_spot():
               song_results = spot_search_results(q2)["tracks"]["items"]
               if song_results:
                 for result in song_results:
-                  if result["name"].lower() in v.title.lower() or result["artists"][0]["name"] in v.channel or result["artists"][0]["name"].strip() in v.channel or result["artists"][0]["name"] in v.title:
+                  if (result["name"].lower() in v.title.lower() and result["artists"][0]["name"] in v.title) or (result["name"].replace(result["name"][result["name"].find("["):result["name"].find("]")+1], "").lower() in v.title.lower() and result["artists"][0]["name"] in v.title):
                     if result["id"] in tracks:
                       continue
                     else:
@@ -458,7 +459,7 @@ def export_to_spot():
             song_results = spot_search_results(query)["tracks"]["items"]
             if song_results:
               for result in song_results:
-                if result["name"] in v.title or result["artists"][0]["name"] in v.channel or result["artists"][0]["name"].strip() in v.channel or result["artists"][0]["name"] in v.title:
+                 if (result["name"].lower() in v.title.lower() and result["artists"][0]["name"] in v.title) or (result["name"].replace(result["name"][result["name"].find("["):result["name"].find("]")+1], "").lower() in v.title.lower() and result["artists"][0]["name"] in v.title):
                   if result["id"] in tracks:
                       continue
                   else:

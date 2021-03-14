@@ -13,7 +13,6 @@ from googleapiclient.errors import HttpError
 yt = Blueprint('yt', __name__, template_folder='../templates', static_folder='../static')
 
 
-
 @yt.route("/yt-authorize")
 @login_required
 def yt_authorize():
@@ -26,7 +25,7 @@ def yt_authorize():
         scopes=SCOPES
     )
 
-    flow.redirect_uri = ''
+    flow.redirect_uri = url_for('yt.yt_oauth2callback', _external=True)
 
     auth_url, state = flow.authorization_url()
 

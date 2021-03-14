@@ -1,16 +1,17 @@
 # You'll need to have your own YouTube API credentials for this part.
 
+import os
+
 API_SERVICE_NAME = 'youtube'
 API_VERSION = 'v3'
 
-CLIENT_SECRETS_FILE = ''
-CLIENT_ID = ""
-PROJECT_ID = ""
-AUTH_URI = ""
-TOKEN_URI = ""
-AUTH_PROVIDER_URL = ""
-CLIENT_SECRET = ""
-REDIRECT_URIS = []
+CLIENT_ID = os.environ.get('CLIENT_ID')
+PROJECT_ID = os.environ.get('PROJECT_ID')
+AUTH_URI = os.environ.get('AUTH_URI')
+TOKEN_URI = os.environ.get('TOKEN_URI')
+AUTH_PROVIDER_URL = os.environ.get('AUTH_PROVIDER_URL')
+CLIENT_SECRET = os.environ('CLIENT_SECRET')
+REDIRECT_URIS = os.environ.get('REDIRECT_URIS')
 
 CLIENT_CONFIG = {
     "web": {

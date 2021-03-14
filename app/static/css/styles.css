@@ -35,7 +35,7 @@ body {
     padding: 1rem 1rem;
 }
 
-.side-menu li a {
+.side-menu a {
     color: white;
     text-decoration: none;
 }
@@ -50,7 +50,20 @@ body {
     box-shadow: none;
 }
 
+.menu-item i {
+    margin-right: 5px;
+}
 
+.menu-item:hover {
+    filter: brightness(0.5);
+    background-color: black;
+}
+
+#github {
+    width: 100%;
+    bottom: 4rem;
+    position: absolute;
+}
 
 
 

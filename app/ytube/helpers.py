@@ -1,6 +1,7 @@
 from . import *
 from flask import render_template, redirect, request, url_for, session, jsonify, flash
 from flask_login import login_required, current_user
+from ..models import db
 
 from ..models.yt_credentials import YTCredentials
 
@@ -65,7 +66,7 @@ def in_yt_playlist(video_id, playlist_id):
       )
     res = req.execute()
     
-    if video_id == res["items"][0]["snippet"]["resourceId"]["videoId"]:
+    if len(res["items"]) > 0 and video_id == res["items"][0]["snippet"]["resourceId"]["videoId"]:
       return True
 
     return False
@@ -118,6 +119,7 @@ def yt_search_results(q):
     credentials = get_yt_credentials()
 
     youtube = build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
+
 
     req = youtube.search().list(
           part="snippet",
