@@ -28,7 +28,14 @@ def page_not_found(e):
 def verify():
     """Verification page leading to YouTube and Spotify account login pages."""
 
-    session["referrer"] = request.referrer
+    if "yt_referrer" in session:
+        session.pop("yt_referrer")
+
+    if "spot_referrer" in session:
+        session.pop("spot_referrer")
+
+    if url_for("yt.yt_oauth2callback", _external=True) not in request.referrer or url_for("spot.spot-oauth2callback", _external=True) not in request.referrer:
+      session["referrer"] = request.referrer
     yt_verified = False
     spot_verified = False
     if get_yt_credentials():
@@ -66,7 +73,7 @@ def register():
     """Registers a new user."""
 
     if current_user.is_authenticated:
-      return redirect(url_for('api.home'))
+      return redirect(url_for('auth.login'))
     form = RegisterForm()
     if form.validate_on_submit():
       user = User.signup(username=form.username.data, password=form.password.data, confirm_pwd=form.confirm_password.data)
