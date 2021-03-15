@@ -63,7 +63,7 @@ def create_spot_oauth():
     return SpotifyOAuth(
         client_id=SPOT_CLIENT_ID, 
         client_secret=SPOT_CLIENT_SECRET, 
-        redirect_uri=SPOT_REDIRECT_URI,
+        redirect_uri=url_for("spot.spot_oauth2callback", _external=True),
         scope=spot_scope)
 
 

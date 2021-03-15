@@ -18,7 +18,8 @@ yt = Blueprint('yt', __name__, template_folder='../templates', static_folder='..
 def yt_authorize():
     """Used to authenticate a user's YouTube account."""
 
-    session["yt_referrer"] = request.referrer
+    if request.referrer and url_for("api.settings", _external=True) in request.referrer:
+      session["yt_referrer"] = request.referrer
 
     flow = Flow.from_client_config(
         CLIENT_CONFIG,

@@ -15,7 +15,8 @@ spot = Blueprint('spot', __name__, template_folder='../templates', static_folder
 def spot_authorize():
     """Used to authenticate a user's Spotify account."""
 
-    session["spot_referrer"] = request.referrer
+    if request.referrer and url_for("api.settings", _external=True) in request.referrer:
+      session["spot_referrer"] = request.referrer
 
     sp = create_spot_oauth()
 

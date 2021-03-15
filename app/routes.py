@@ -28,6 +28,7 @@ def home():
         session.pop("referrer")
         
     if not get_yt_credentials() or not get_spot_credentials():
+      session["referrer"] = request.referrer
       return redirect(url_for('auth.verify'))
     
     yt_trending = yt_trending_music()
@@ -61,6 +62,7 @@ def settings():
 
 
     if not get_yt_credentials() or not get_spot_credentials():
+      session["referrer"] = request.referrer
       return redirect(url_for('auth.verify'))
 
     user_form = ChangeUserForm()
@@ -135,6 +137,7 @@ def search_results():
     if "referrer" in session:
         session.pop("referrer")
     if not get_yt_credentials() or not get_spot_credentials():
+      session["referrer"] = request.referrer
       return redirect(url_for('auth.verify'))
     q = " "
     if request.args.get("query"):
@@ -162,6 +165,7 @@ def show_playlists():
     if "referrer" in session:
         session.pop("referrer")
     if not get_yt_credentials() or not get_spot_credentials():
+      session["referrer"] = request.referrer
       return redirect(url_for('auth.verify'))
     user = User.query.get(current_user.get_id())
     playlists = user.playlists

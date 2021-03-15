@@ -34,9 +34,6 @@ def verify():
     if "spot_referrer" in session:
         session.pop("spot_referrer")
 
-
-    if request.referrer and (url_for("yt.yt_oauth2callback", _external=True) not in request.referrer or url_for("spot.spot-oauth2callback", _external=True) not in request.referrer):
-      session["referrer"] = request.referrer
     yt_verified = False
     spot_verified = False
     if get_yt_credentials():
