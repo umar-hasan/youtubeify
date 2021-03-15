@@ -24,11 +24,11 @@ api = Blueprint('api', __name__, template_folder='./templates', static_folder='.
 def home():
     """Home page."""
 
-    if "referrer" in session:
-        session.pop("referrer")
+    if "custom_referrer" in session:
+        session.pop("custom_referrer")
         
     if not get_yt_credentials() or not get_spot_credentials():
-      session["referrer"] = request.referrer
+      session["custom_referrer"] = request.referrer
       return redirect(url_for('auth.verify'))
     
     yt_trending = yt_trending_music()
@@ -51,8 +51,8 @@ def home():
 def settings():
     """Settings page."""
 
-    if "referrer" in session:
-        session.pop("referrer")
+    if "custom_referrer" in session:
+        session.pop("custom_referrer")
 
     if "yt_referrer" in session:
         session.pop("yt_referrer")
@@ -62,7 +62,7 @@ def settings():
 
 
     if not get_yt_credentials() or not get_spot_credentials():
-      session["referrer"] = request.referrer
+      session["custom_referrer"] = request.referrer
       return redirect(url_for('auth.verify'))
 
     user_form = ChangeUserForm()
@@ -134,10 +134,10 @@ def change_pass():
 def search_results():
     """Displays search results based on a user's query."""
 
-    if "referrer" in session:
-        session.pop("referrer")
+    if "custom_referrer" in session:
+        session.pop("custom_referrer")
     if not get_yt_credentials() or not get_spot_credentials():
-      session["referrer"] = request.referrer
+      session["custom_referrer"] = request.referrer
       return redirect(url_for('auth.verify'))
     q = " "
     if request.args.get("query"):
@@ -162,10 +162,10 @@ def search_results():
 def show_playlists():
     """Shows playlists a user has created."""
 
-    if "referrer" in session:
-        session.pop("referrer")
+    if "custom_referrer" in session:
+        session.pop("custom_referrer")
     if not get_yt_credentials() or not get_spot_credentials():
-      session["referrer"] = request.referrer
+      session["custom_referrer"] = request.referrer
       return redirect(url_for('auth.verify'))
     user = User.query.get(current_user.get_id())
     playlists = user.playlists

@@ -49,8 +49,9 @@ def spot_oauth2callback():
 
     db.session.commit()
 
-    if "referrer" in session:
-      return redirect(session["referrer"])
+    if "custom_referrer" in session and session["custom_referrer"]:
+      print(session["custom_referrer"])
+      return redirect(session["custom_referrer"])
 
     if "spot_referrer" in session:
       flash("User update successful.", 'success')
