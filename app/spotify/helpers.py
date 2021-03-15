@@ -63,7 +63,7 @@ def create_spot_oauth():
     return SpotifyOAuth(
         client_id=SPOT_CLIENT_ID, 
         client_secret=SPOT_CLIENT_SECRET, 
-        redirect_uri=url_for('spot.spot_oauth2callback', _external=True),
+        redirect_uri=SPOT_REDIRECT_URI,
         scope=spot_scope)
 
 
@@ -89,7 +89,8 @@ def spot_get_recommended():
     artist_seeds = [artist["external_urls"]["spotify"] for artist in sp.current_user_top_artists()["items"]]
     genre_seeds = sp.recommendation_genre_seeds()
 
-
-    res = sp.recommendations(seed_artists=artist_seeds[:5], limit=10)
-
-    return res
+    try:
+      res = sp.recommendations(seed_artists=artist_seeds[:5], limit=10)
+      return res["tracks"]
+    except:
+      return None

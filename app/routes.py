@@ -41,7 +41,7 @@ def home():
 
     return render_template('home.html', 
                             yt_trending=yt_trending["items"], 
-                            spot_recommended=spot_recommended["tracks"],
+                            spot_recommended=spot_recommended,
                             playlists=playlists)
 
 
