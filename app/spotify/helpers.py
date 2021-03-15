@@ -46,7 +46,7 @@ def get_spot_credentials():
 
     sp = create_spot_oauth()
 
-    credentials = sp.get_access_token(request.args.get("code"))
+    credentials = sp.get_access_token()
 
     if 'spot_credentials' not in session:
       session['spot_credentials'] = credentials
