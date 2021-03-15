@@ -18,7 +18,7 @@ def spot_authorize():
     if request.referrer and url_for("api.settings", _external=True) in request.referrer:
       session["spot_referrer"] = request.referrer
 
-    sp = create_spot_oauth()
+    sp = create_spot_oauth_dialog()
 
     auth_url = sp.get_authorize_url()
 
@@ -39,11 +39,13 @@ def spot_oauth2callback():
       user_creds = SpotCredentials(
         user_id=current_user.get_id(),
         token=credentials['access_token'],
-        refresh_token=credentials['refresh_token'])
+        refresh_token=credentials['refresh_token'],
+        expires_at=credentials['expires_in'])
       db.session.add(user_creds)
     else:
       user_creds.token = credentials['access_token']
       user_creds.refresh_token = credentials['refresh_token']
+      user_creds.expires_at = credentials['expires_in']
 
     db.session.commit()
 

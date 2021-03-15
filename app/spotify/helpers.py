@@ -1,6 +1,7 @@
 from . import *
 from flask import render_template, redirect, request, url_for, session, jsonify, flash
 from flask_login import login_required, current_user
+from ..models import db
 from ..models.spot_credentials import SpotCredentials
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
@@ -43,6 +44,7 @@ def get_spot_credentials():
     token_info = {
       "access_token": user_creds.token,
       "refresh_token": user_creds.refresh_token,
+      "expires_at": int(user_creds.expires_at),
       "scope": spot_scope
     }
 
@@ -51,7 +53,7 @@ def get_spot_credentials():
 
     t = sp.validate_token(token_info)
     user_creds.token = t["access_token"]
-    db.seesion.commit()
+    db.session.commit()
 
     return t
 
@@ -64,6 +66,16 @@ def create_spot_oauth():
         client_secret=SPOT_CLIENT_SECRET, 
         redirect_uri=url_for("spot.spot_oauth2callback", _external=True),
         scope=spot_scope)
+
+def create_spot_oauth_dialog():
+    """Creates a SpotifyOAuth object."""
+
+    return SpotifyOAuth(
+        client_id=SPOT_CLIENT_ID, 
+        client_secret=SPOT_CLIENT_SECRET, 
+        redirect_uri=url_for("spot.spot_oauth2callback", _external=True),
+        scope=spot_scope,
+        show_dialog=True)
 
 
 def spot_search_results(q):
