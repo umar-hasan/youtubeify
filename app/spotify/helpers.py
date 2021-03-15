@@ -10,10 +10,7 @@ from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 def create_spot_playlist(name, description=""):
     """Creates a new Spotify playlist."""
     
-    auth_manager = get_spot_credentials()
-
-    if not auth_manager:
-      return redirect(url_for('auth.verify'))
+    auth_manager = create_spot_oauth()
 
     sp = Spotify(auth_manager=auth_manager)
 
@@ -23,10 +20,7 @@ def create_spot_playlist(name, description=""):
 def add_to_spot_playlist(playlist_id, tracks):
     """Adds a song to a Spotify playlist."""
 
-    auth_manager = get_spot_credentials()
-
-    if not auth_manager:
-      return redirect(url_for('auth.verify'))
+    auth_manager = create_spot_oauth()
 
     sp = Spotify(auth_manager=auth_manager)
 
@@ -46,15 +40,20 @@ def get_spot_credentials():
 
     sp = create_spot_oauth()
 
-    credentials = sp.get_access_token()
+    token_info = {
+      "access_token": user_creds.token,
+      "refresh_token": user_creds.refresh_token,
+      "scope": spot_scope
+    }
 
     if 'spot_credentials' not in session:
-      session['spot_credentials'] = credentials
+      session['spot_credentials'] = token_info
 
-    if sp.is_token_expired(credentials):
-      sp.refresh_access_token(user_creds.refresh_token)
+    t = sp.validate_token(token_info)
+    user_creds.token = t["access_token"]
+    db.seesion.commit()
 
-    return sp
+    return t
 
 
 def create_spot_oauth():
@@ -70,7 +69,7 @@ def create_spot_oauth():
 def spot_search_results(q):
     """Returns Spotify search results."""
 
-    auth_manager = get_spot_credentials()
+    auth_manager = create_spot_oauth()
 
     sp = Spotify(auth_manager=auth_manager)
 
@@ -82,7 +81,7 @@ def spot_search_results(q):
 def spot_get_recommended():
     """Returns recommended Spotify songs based on a user's history."""
 
-    auth_manager = get_spot_credentials()
+    auth_manager = create_spot_oauth()
 
     sp = Spotify(auth_manager=auth_manager)
 
