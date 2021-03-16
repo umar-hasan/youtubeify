@@ -49,7 +49,7 @@ def spot_oauth2callback():
 
     db.session.commit()
 
-    if "custom_referrer" in session and session["custom_referrer"] and "https://myaccount.google.com/" not in session["custom_referrer"]:
+    if "custom_referrer" in session and session["custom_referrer"]:
       return redirect(session["custom_referrer"])
 
     if "spot_referrer" in session:

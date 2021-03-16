@@ -67,7 +67,7 @@ def yt_oauth2callback():
 
     del session['yt_state']
 
-    if "custom_referrer" in session and session["custom_referrer"] and "https://accounts.spotify.com/" not in session["custom_referrer"]:
+    if "custom_referrer" in session and session["custom_referrer"]:
       return redirect(session["custom_referrer"])
 
     if "yt_referrer" in session:

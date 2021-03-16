@@ -28,6 +28,9 @@ def page_not_found(e):
 def verify():
     """Verification page leading to YouTube and Spotify account login pages."""
 
+    if request.referrer and url_for("auth.login", _external=True) in request.referrer:
+      session["custom_referrer"] = url_for("auth.verify", _external=True)
+
     if "yt_referrer" in session:
         session.pop("yt_referrer")
 
