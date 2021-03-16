@@ -31,7 +31,7 @@ def spot_oauth2callback():
 
     sp = create_spot_oauth()
 
-    credentials = sp.get_access_token(request.args.get("code"))
+    credentials = sp.get_access_token(request.args.get("code"), check_cache=False)
     
     user_creds = SpotCredentials.query.get(current_user.get_id())
 

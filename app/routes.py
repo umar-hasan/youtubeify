@@ -376,7 +376,6 @@ def export_to_yt():
       flash("Playlist successfully exported to YouTube.", 'success')
 
     except Exception as e:
-      print(e)
       flash("Unable to export playlist to YouTube.", 'error')
     
     return redirect(url_for("api.show_playlists"))
@@ -431,10 +430,6 @@ def export_to_spot():
             q2 = q2.replace("(", "")
             q2 = q2.replace("[", "")
             q2 = q2.replace("]", "")
-
-          print(query)
-          print(q1)
-          print(q2)
 
 
           if q1 and q2:
