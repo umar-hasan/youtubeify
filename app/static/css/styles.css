@@ -371,6 +371,27 @@ body {
     text-decoration: none;
 }
 
+#mistake {
+    position: absolute;
+    bottom: 0;
+}
+
+#mistake p {
+    margin-bottom: 0;
+    align-self: center;
+}
+
+#mistake .btn {
+    color: #0d6efd;
+}
+
+#mistake .btn:hover {
+    color: #0a58ca;
+}
+
+#mistake form {
+    margin-left: 5px;
+}
 
 
 .alert {

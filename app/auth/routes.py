@@ -131,11 +131,13 @@ def delete_user():
 
     logout_user()
     session.clear()
-    
-    db.session.delete(yt)
-    db.session.commit()
-    db.session.delete(spot)
-    db.session.commit()
+
+    if yt:
+      db.session.delete(yt)
+      db.session.commit()
+    if spot:
+      db.session.delete(spot)
+      db.session.commit()
     db.session.delete(user)
     db.session.commit()
 

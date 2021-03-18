@@ -41,6 +41,26 @@
 
 }
 
+#github {
+    color: white;
+    position: absolute;
+    margin-left: 10px;
+    bottom: 10px;
+}
+
+#github i {
+    margin-right: 2px;
+}
+
+#github a {
+    text-decoration: none;
+    color: white;
+}
+
+#github a:hover {
+    color: rgb(220, 220, 220);
+}
+
 .alert {
     width: fit-content;
     margin-left: auto;
