@@ -107,7 +107,6 @@ def get_yt_credentials():
       credentials.refresh(Request())
       session['yt-credentials'] = yt_credentials_to_dict(credentials)
       user_creds.token = credentials.token
-      user_creds.refresh_token = credentials.refresh_token
       db.session.commit()
 
     return credentials
