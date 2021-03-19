@@ -28,7 +28,7 @@ def yt_authorize():
 
     flow.redirect_uri = url_for('yt.yt_oauth2callback', _external=True)
 
-    auth_url, state = flow.authorization_url()
+    auth_url, state = flow.authorization_url(prompt='consent')
 
     session["yt_state"] = state
 
