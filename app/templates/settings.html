@@ -97,7 +97,7 @@
     <hr>
 
     <div class="d-flex">
-        <form action="/delete-user" method="POST">
+        <form id="delete-account" action="/delete-user" method="POST">
             <button class="btn">Delete Account</button>
         </form>
     </div>
@@ -121,6 +121,17 @@
     </div>
     {% endif %}
     {% endwith %}
+
+    <div id="backdrop">
+        <div id="spinner-container">
+            <h1 class="mx-4">Give this thing a moment....  </h1>
+            
+            <div class="spinner-border text-light" role="status"></div>
+        </div>
+        
+    </div>
+
+    <script src="{{url_for('.static', filename='js/settings.js')}}"></script>
 
 </div>
 {% endblock %}
